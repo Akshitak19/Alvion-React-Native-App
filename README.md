@@ -14,7 +14,12 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
 
    ```bash
    npx expo start
-   ```
+   ``` 
+   After npm expo start if you want to open the app in mobile phone, 
+   1. go to playstore
+   2. download expo go
+   3. scan the QR (generated in the terminal)
+   4. And app starts working!
 
 In the output, you'll find options to open the app in a
 
