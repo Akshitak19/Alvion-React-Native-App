@@ -1,6 +1,11 @@
+import "react-native-get-random-values";
 import React from "react";
-import { View, Text, Button, StyleSheet } from "react-native";
+import { View, Text, Button, StyleSheet, Alert } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../redux/store";
+import { saveProfile } from "../redux/profileSlice";
+import { v4 as uuidv4 } from "uuid";
 
 export default function Page3() {
   const { name, phone, city, state, country } = useLocalSearchParams<{
@@ -11,11 +16,32 @@ export default function Page3() {
     country: string;
   }>();
   const router = useRouter();
+  const dispatch = useDispatch<AppDispatch>();
+
+  const handleSubmit = async () => {
+    if (!name || !phone || !city || !state || !country) {
+      Alert.alert("Please fill all fields");
+      return;
+    }
+
+    await dispatch(
+      saveProfile({
+        id: uuidv4(),
+        name,
+        phone,
+        city,
+        state,
+        country,
+      })
+    );
+
+    Alert.alert("Profile saved!");
+    router.push("/"); // Go back to Home page
+  };
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Summary</Text>
-
       <Text style={styles.text}>Name: {name}</Text>
       <Text style={styles.text}>Phone: {phone}</Text>
       <Text style={styles.text}>City: {city}</Text>
@@ -24,7 +50,7 @@ export default function Page3() {
 
       <View style={styles.buttonRow}>
         <Button title="Back" onPress={() => router.back()} />
-        <Button title="Finish" onPress={() => router.push("/page1")} />
+        <Button title="Submit" onPress={handleSubmit} />
       </View>
     </View>
   );
