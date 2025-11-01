@@ -20,7 +20,7 @@ export default function Page3() {
 
   const handleSubmit = async () => {
     if (!name || !phone || !city || !state || !country) {
-      Alert.alert("Please fill all fields");
+      alert("Please fill all fields");
       return;
     }
 
